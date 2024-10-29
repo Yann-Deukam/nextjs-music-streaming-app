@@ -4,6 +4,7 @@ import { ChevronLeft, ChevronRight, Home, Search } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { twMerge } from "tailwind-merge";
+import Button from "./Button";
 
 interface HeaderProps {
   children?: React.ReactNode;
@@ -49,6 +50,34 @@ const Header = ({ children, className }: HeaderProps) => {
               <Search size={20} />
             </span>
           </button>
+        </div>
+        <div className="flex justify-between items-center gap-x-4">
+          <>
+            <div>
+              <Button
+                onClick={() => {}}
+                className="
+                bg-transparent
+                text-neutral-200
+                font-medium
+              "
+              >
+                Sign Up
+              </Button>
+            </div>
+            <div>
+              <Button
+                onClick={() => {}}
+                className="
+                bg-white
+               px-6
+               py-2
+              "
+              >
+                Login
+              </Button>
+            </div>
+          </>
         </div>
       </div>
       {children}
