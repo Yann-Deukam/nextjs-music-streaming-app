@@ -16,7 +16,9 @@ const Library = () => {
           <Plus onClick={onClick} size={20} />
         </span>
       </div>
-      <div className="flex flex-col gap-y-2 mt-4 px-3">List of songs</div>
+      <div className="flex flex-col gap-y-2 mt-4 px-3 text-white">
+        List of songs
+      </div>
     </div>
   );
 };

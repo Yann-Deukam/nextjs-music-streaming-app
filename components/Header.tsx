@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import { twMerge } from "tailwind-merge";
 import Button from "./Button";
+import useAuthModal from "@/hooks/useAuthModal";
 
 interface HeaderProps {
   children?: React.ReactNode;
@@ -12,11 +13,13 @@ interface HeaderProps {
 }
 
 const Header = ({ children, className }: HeaderProps) => {
+  const authModal = useAuthModal();
   const router = useRouter();
 
   const handleLogout = () => {
     //handle logout
   };
+
   return (
     <div
       className={twMerge(
@@ -55,7 +58,7 @@ const Header = ({ children, className }: HeaderProps) => {
           <>
             <div>
               <Button
-                onClick={() => {}}
+                onClick={authModal.onOpen}
                 className="
                 bg-transparent
                 text-neutral-200
@@ -67,7 +70,7 @@ const Header = ({ children, className }: HeaderProps) => {
             </div>
             <div>
               <Button
-                onClick={() => {}}
+                onClick={authModal.onOpen}
                 className="
                 bg-white
                px-6
