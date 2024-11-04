@@ -1,11 +1,21 @@
 "use client";
 
-import { ChevronLeft, ChevronRight, Home, Search } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  Home,
+  LogOut,
+  Search,
+  User,
+} from "lucide-react";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { twMerge } from "tailwind-merge";
 import Button from "./Button";
 import useAuthModal from "@/hooks/useAuthModal";
+import { useSupabaseClient } from "@supabase/auth-helpers-react";
+import { useUser } from "@/hooks/useUser";
+import toast from "react-hot-toast";
 
 interface HeaderProps {
   children?: React.ReactNode;
@@ -16,8 +26,20 @@ const Header = ({ children, className }: HeaderProps) => {
   const authModal = useAuthModal();
   const router = useRouter();
 
-  const handleLogout = () => {
-    //handle logout
+  const supabaseClient = useSupabaseClient();
+  const { user } = useUser();
+
+  const handleLogout = async () => {
+    const { error } = await supabaseClient.auth.signOut();
+
+    // TODO: reset plaing song
+    router.refresh();
+
+    if (error) {
+      toast.error(error.message);
+    } else {
+      toast.success("Logged Out");
+    }
   };
 
   return (
@@ -44,43 +66,61 @@ const Header = ({ children, className }: HeaderProps) => {
         </div>
         <div className="flex md:hidden gap-x-2 items-center">
           <button className="rounded-full p-2 bg-white flex items-center justify-center hover:opacity-75 transition">
-            <span className="text-black ">
+            <span className="text-white ">
               <Home size={20} />
             </span>
           </button>
           <button className="rounded-full p-2 bg-white flex items-center justify-center hover:opacity-75 transition">
-            <span className="text-black ">
+            <span className="text-white ">
               <Search size={20} />
             </span>
           </button>
         </div>
         <div className="flex justify-between items-center gap-x-4">
-          <>
-            <div>
+          {user ? (
+            <div className="flex gap-x-4 items-center">
               <Button
-                onClick={authModal.onOpen}
-                className="
+                onClick={handleLogout}
+                className="bg-white px-6 py-3 text-black flex flex-row"
+              >
+                <span className="mr-2">
+                  <LogOut size={24} />
+                </span>
+                Logout
+              </Button>
+              <Button className="bg-white text-black">
+                <User size={24} />
+              </Button>
+            </div>
+          ) : (
+            <>
+              <div>
+                <Button
+                  onClick={authModal.onOpen}
+                  className="
                 bg-transparent
                 text-neutral-200
                 font-medium
               "
-              >
-                Sign Up
-              </Button>
-            </div>
-            <div>
-              <Button
-                onClick={authModal.onOpen}
-                className="
+                >
+                  Sign Up
+                </Button>
+              </div>
+              <div>
+                <Button
+                  onClick={authModal.onOpen}
+                  className="
                 bg-white
                px-6
                py-2
+               text-black
               "
-              >
-                Login
-              </Button>
-            </div>
-          </>
+                >
+                  Login
+                </Button>
+              </div>
+            </>
+          )}
         </div>
       </div>
       {children}

@@ -5,6 +5,7 @@ import Sidebar from "@/components/Sidebar";
 import SupabaseProviders from "@/providers/SupabaseProviders";
 import UserProvider from "@/providers/UserProvider";
 import ModalProvider from "@/providers/ModalProvider";
+import ToasterProvider from "@/providers/ToasterProvider";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -27,6 +28,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={montserrat.className}>
+        <ToasterProvider />
         <SupabaseProviders>
           <UserProvider>
             <ModalProvider />
