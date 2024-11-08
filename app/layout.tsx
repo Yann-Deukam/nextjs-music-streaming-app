@@ -6,6 +6,7 @@ import SupabaseProviders from "@/providers/SupabaseProviders";
 import UserProvider from "@/providers/UserProvider";
 import ModalProvider from "@/providers/ModalProvider";
 import ToasterProvider from "@/providers/ToasterProvider";
+import getSongsByUserId from "@/actions/getSongsByUserId";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -20,11 +21,14 @@ export const metadata: Metadata = {
   description: "Best music streaming app",
 };
 
-export default function RootLayout({
+export const revalidate = 0;
+
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const userSongs = await getSongsByUserId();
   return (
     <html lang="en">
       <body className={montserrat.className}>
@@ -32,7 +36,7 @@ export default function RootLayout({
         <SupabaseProviders>
           <UserProvider>
             <ModalProvider />
-            <Sidebar>{children}</Sidebar>
+            <Sidebar songs={userSongs}>{children}</Sidebar>
           </UserProvider>
         </SupabaseProviders>
       </body>
