@@ -32,7 +32,7 @@ const Header = ({ children, className }: HeaderProps) => {
   const handleLogout = async () => {
     const { error } = await supabaseClient.auth.signOut();
 
-    // TODO: reset plaing song
+    // TODO: reset playing song
     router.refresh();
 
     if (error) {
@@ -65,12 +65,18 @@ const Header = ({ children, className }: HeaderProps) => {
           </button>
         </div>
         <div className="flex md:hidden gap-x-2 items-center">
-          <button className="rounded-full p-2 bg-white flex items-center justify-center hover:opacity-75 transition">
+          <button
+            onClick={() => router.push("/home")} // Redirect to /home
+            className="rounded-full p-2 bg-white flex items-center justify-center hover:opacity-75 transition"
+          >
             <span className="text-white ">
               <Home size={20} />
             </span>
           </button>
-          <button className="rounded-full p-2 bg-white flex items-center justify-center hover:opacity-75 transition">
+          <button
+            onClick={() => router.push("/search")} // Redirect to /search
+            className="rounded-full p-2 bg-white flex items-center justify-center hover:opacity-75 transition"
+          >
             <span className="text-white ">
               <Search size={20} />
             </span>
@@ -97,11 +103,7 @@ const Header = ({ children, className }: HeaderProps) => {
               <div>
                 <Button
                   onClick={authModal.onOpen}
-                  className="
-                bg-transparent
-                text-neutral-200
-                font-medium
-              "
+                  className="bg-transparent text-neutral-200 font-medium"
                 >
                   Sign Up
                 </Button>
@@ -109,12 +111,7 @@ const Header = ({ children, className }: HeaderProps) => {
               <div>
                 <Button
                   onClick={authModal.onOpen}
-                  className="
-                bg-white
-               px-6
-               py-2
-               text-black
-              "
+                  className="bg-white px-6 py-2 text-black"
                 >
                   Login
                 </Button>
