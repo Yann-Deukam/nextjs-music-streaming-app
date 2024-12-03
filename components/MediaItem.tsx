@@ -1,4 +1,5 @@
 import useLoadImage from "@/hooks/useLoadImage";
+import usePlayer from "@/hooks/usePlayer";
 import { Song } from "@/type";
 import Image from "next/image";
 import React from "react";
@@ -9,13 +10,13 @@ interface MediaItemProps {
 }
 
 export default function MediaItem({ data, onClick }: MediaItemProps) {
+  const player = usePlayer();
   const imageUrl = useLoadImage(data);
   const handleClick = () => {
     if (onClick) {
       return onClick(data.id);
     }
-
-    //TODO: turn on music player
+    return player.setId(data.id);
   };
   return (
     <div className="flex items-center gap-x-3 cursor-pointer hover:bg-neutral-800/50 transition-all ease-in-out duration-150 w-full p-2 rounded-sm">
